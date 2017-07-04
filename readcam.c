@@ -46,9 +46,9 @@ void YUY2_RGB4(guchar *YUY2buff, guchar *RGBbuff, int Width, int Height)
 {
 	guchar *orgRGBbuff = RGBbuff;
 	int i, j;
-	for(i=0; i<Height; ++i)
+	for (i = 0; i < Height; ++i)
 	{ 
-		for(j=0; j<Width; j+=2)
+		for (j = 0; j < Width; j += 2)
 		{          
 		    //Y0 U0 Y1 V0
 			float Y0 = *YUY2buff++;
@@ -61,27 +61,27 @@ void YUY2_RGB4(guchar *YUY2buff, guchar *RGBbuff, int Width, int Height)
 			R = 1.164f*(Y0-16) + 1.159f*(V-128);
 			G = 1.164f*(Y0-16) - 0.38f*(U-128) - 0.813f*(V-128);  
 			B = 1.164f*(Y0-16) + 2.018f*(U-128);
-			if(R<0) 
+			if (R < 0) 
 			{
 				R = 0;
 			} 
-			if(R>255) 
+			if (R > 255) 
 			{
 				R = 255;
 			} 
-			if(G<0) 
+			if (G < 0) 
 			{
 				G = 0;
 			} 
-			if(G>255) 
+			if (G > 255) 
 			{
 				G = 255;
 			}
-			if(B<0)
+			if (B < 0)
 			{
 				B = 0;
 			}
-			if(B>255) 
+			if (B > 255) 
 			{
 				B = 255;
 			}
@@ -93,27 +93,27 @@ void YUY2_RGB4(guchar *YUY2buff, guchar *RGBbuff, int Width, int Height)
 			R = 1.164f*(Y1-16) + 1.159f*(V-128);
 			G = 1.164f*(Y1-16) - 0.38f*(U-128) - 0.813f*(V-128);  
 			B = 1.164f*(Y1-16) + 2.018f*(U-128);
-			if(R<0) 
+			if (R < 0) 
 			{
 				R = 0;
 			}
-			if(R>255) 
+			if (R > 255) 
 			{
 				R = 255;
 			}
-			if(G<0)
+			if (G < 0)
  			{
 				G = 0;
  			}				 
-			if(G>255) 
+			if (G > 255) 
 			{
 				G = 255;
 			}
-			if(B<0) 
+			if (B < 0) 
 			{
 				B = 0;
 			}
-  			if(B>255) 
+  			if(B > 255) 
 			{
 				B = 255;
 			}
@@ -131,7 +131,7 @@ int read_data(GtkWidget *widget, GdkEvent *event, gpointer data)
    	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	buf.memory = V4L2_MEMORY_MMAP;
  
-	if(ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
+	if (ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
 	{
 		printf("Dqbuf failed\n");
 	}
@@ -145,7 +145,7 @@ int read_data(GtkWidget *widget, GdkEvent *event, gpointer data)
 	f %= 100000;
 	printf("The number now is :%d\n", ++f);
 	//go to qbuf
-	if(ioctl(fd, VIDIOC_QBUF,&buf) == -1)
+	if (ioctl(fd, VIDIOC_QBUF, &buf) == -1)
 	{
 		printf("Go to qbuf failed\n");
 	}
@@ -161,11 +161,11 @@ int main(int argc, char *argv[])
   	enum v4l2_buf_type type;
 	// open the video
   	fd = open("/dev/video0", O_RDWR);
-  	if(fd<0)
+  	if (fd < 0)
    	{
 		printf("Can't open it!\n");
 		fd = open("/dev/video1", O_RDWR);
-		if(fd>0) 
+		if (fd > 0) 
 		{
 			printf("Open video1\n");
 		}
@@ -176,19 +176,19 @@ int main(int argc, char *argv[])
 	} 
 
 	// get the capability of the video
-  	if(ioctl(fd, VIDIOC_QUERYCAP, &cap) == -1)  
+  	if (ioctl(fd, VIDIOC_QUERYCAP, &cap) == -1)  
  	{
 	 	printf("Can't get cap!\n");
  	}
-  	if(cap.capabilities&V4L2_CAP_VIDEO_CAPTURE) 
+  	if (cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) 
  	{
 	 	printf("It is a video caprure device!\n");
  	}
-  	if(cap.capabilities&V4L2_CAP_STREAMING) 
+  	if (cap.capabilities & V4L2_CAP_STREAMING) 
   	{
 	  	printf("It support streaming i/0\n");
   	}
-  	if(cap.capabilities&V4L2_CAP_READWRITE) 
+  	if (cap.capabilities & V4L2_CAP_READWRITE) 
   	{
 	  	printf("It support read and write i/o\n");
   	}
@@ -197,9 +197,9 @@ int main(int argc, char *argv[])
    	fmt.fmt.pix.width = COLS;
    	fmt.fmt.pix.height = ROWS;
 	fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
-	if ( ioctl(fd,VIDIOC_S_FMT,& fmt) == -1) 
+	if (ioctl(fd, VIDIOC_S_FMT, &fmt) == -1) 
 	{
-		printf ("format failed\n");
+		printf("format failed\n");
 	}
 	else
  	{
@@ -209,27 +209,27 @@ int main(int argc, char *argv[])
    	reqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
    	reqbuf.count = 30;
 	reqbuf.memory = V4L2_MEMORY_MMAP;
-	if(ioctl(fd, VIDIOC_REQBUFS, & reqbuf) == -1) 
+	if (ioctl(fd, VIDIOC_REQBUFS, & reqbuf) == -1) 
 	{
-		printf ("Buffer request error\n"); 
+		printf("Buffer request error\n"); 
 	}
 	//allocate the approcation buffers 
 	buffers = calloc (reqbuf.count, sizeof(*buffers));
-	if(!buffers) 
+	if (!buffers) 
 	{
 		printf("Buffers out of memory\n");
 	}
 
 	//map the buffers between driver and approcation
 	unsigned int i;
-	for(i=0; i<reqbuf.count; i++)
+	for (i = 0; i < reqbuf.count; i++)
 	{
 		struct v4l2_buffer buffer;
 		buffer.type = reqbuf.type;
 		buffer.memory = V4L2_MEMORY_MMAP;
 		buffer.index = i;
         
-		if(ioctl(fd, VIDIOC_QUERYBUF, &buffer) == -1)
+		if (ioctl(fd, VIDIOC_QUERYBUF, &buffer) == -1)
 		{
 			printf("querybuf failed\n");
 		}
@@ -243,9 +243,9 @@ int main(int argc, char *argv[])
                                 	PROT_READ | PROT_WRITE,   /* recommended */
                                 	MAP_SHARED,                /* recommended */
                                 	fd, buffer.m.offset);
-		if(MAP_FAILED == buffers[i].start)
+		if (MAP_FAILED == buffers[i].start)
 		{
-			printf ("Mmap failde\n");
+			printf("Mmap failde\n");
 		}
 		else 
 		{
@@ -255,14 +255,14 @@ int main(int argc, char *argv[])
 
 	// start capture:enqueue all the buffers! 
 	int a;
-	for(a=0; a<reqbuf.count; a++)
+	for (a = 0; a < reqbuf.count; a++)
   	{ 
 		struct v4l2_buffer buf;
 		buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 		buf.memory = V4L2_MEMORY_MMAP;
 		buf.index = a;
    
-   		if(ioctl(fd, VIDIOC_QBUF,&buf) == -1)
+   		if (ioctl(fd, VIDIOC_QBUF, &buf) == -1)
    		{
 		   	 printf("Enqueue buffers error\n");
    		} 
@@ -280,18 +280,18 @@ int main(int argc, char *argv[])
 	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	buf.memory = V4L2_MEMORY_MMAP;
 	
-	if(ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
+	if (ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
 	{
 		printf("Dqbuf failed\n");
 	} 
-	if(buf.index >= reqbuf.count)
+	if (buf.index >= reqbuf.count)
   	{ 
-    	printf("idex wrong\n");
+		printf("idex wrong\n");
   	} 
 	// process image
 	YUY2_RGB4(buffers[buf.index].start, rgbbuf, COLS, ROWS);
 	// goto qbuf
-	if(ioctl(fd, VIDIOC_QBUF,&buf) == -1)
+	if (ioctl(fd, VIDIOC_QBUF,&buf) == -1)
 	{
 		printf("Go to qbuf failed\n");
 	}
