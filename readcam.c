@@ -129,7 +129,7 @@ int read_data(GtkWidget *widget, GdkEvent *event, gpointer data)
 {    
 	struct v4l2_buffer buf;
    	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    buf.memory = V4L2_MEMORY_MMAP;
+	buf.memory = V4L2_MEMORY_MMAP;
  
 	if(ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
 	{
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	else
-    {
+	{
     	printf("Successfull!\n");
     } 
 
@@ -201,7 +201,7 @@ int main(int argc, char *argv[])
 	{
 		printf ("format failed\n");
 	}
-    else
+	else
  	{
 	 	printf("This format is allowed!\n");
  	}
@@ -225,11 +225,11 @@ int main(int argc, char *argv[])
 	for(i=0; i<reqbuf.count; i++)
 	{
 		struct v4l2_buffer buffer;
-        buffer.type = reqbuf.type;
+		buffer.type = reqbuf.type;
 		buffer.memory = V4L2_MEMORY_MMAP;
-       	buffer.index = i;
+		buffer.index = i;
         
-      	if(ioctl(fd, VIDIOC_QUERYBUF, &buffer) == -1)
+		if(ioctl(fd, VIDIOC_QUERYBUF, &buffer) == -1)
 		{
 			printf("querybuf failed\n");
 		}
@@ -279,12 +279,12 @@ int main(int argc, char *argv[])
     struct v4l2_buffer buf;
     buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     buf.memory = V4L2_MEMORY_MMAP;
-    
-  	if(ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
-    {
+	
+	if(ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
+	{
 		printf("Dqbuf failed\n");
 	} 
-  	if(buf.index >= reqbuf.count)
+	if(buf.index >= reqbuf.count)
   	{ 
     	printf("idex wrong\n");
   	} 
