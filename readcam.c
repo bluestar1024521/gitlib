@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
    	reqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
    	reqbuf.count = 30;
 	reqbuf.memory = V4L2_MEMORY_MMAP;
-	if (ioctl(fd, VIDIOC_REQBUFS, & reqbuf) == -1) 
+	if (ioctl(fd, VIDIOC_REQBUFS, &reqbuf) == -1) 
 	{
 		printf("Buffer request error\n"); 
 	}
@@ -291,7 +291,7 @@ int main(int argc, char *argv[])
 	// process image
 	YUY2_RGB4(buffers[buf.index].start, rgbbuf, COLS, ROWS);
 	// goto qbuf
-	if (ioctl(fd, VIDIOC_QBUF,&buf) == -1)
+	if (ioctl(fd, VIDIOC_QBUF, &buf) == -1)
 	{
 		printf("Go to qbuf failed\n");
 	}
