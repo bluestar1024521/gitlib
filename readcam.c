@@ -233,7 +233,7 @@ int main(int argc, char *argv[])
 		{
 			printf("querybuf failed\n");
 		}
-       		else
+       	else
 		{
 			printf("Querybuf successlly!\n");
 		} 
