@@ -319,7 +319,7 @@ int main(int argc, char *argv[])
 	gtk_container_add(GTK_CONTAINER(window), drawarea);
 
 	g_signal_connect(G_OBJECT(drawarea), "expose_event", G_CALLBACK(draw_image), NULL);
-	gtk_widget_set_size_request(GTK_WIDGET(drawarea), COLS,ROWS);
+	gtk_widget_set_size_request(GTK_WIDGET(drawarea), COLS, ROWS);
 
 	guint id = gtk_idle_add((GtkFunction)read_data, NULL);
 
