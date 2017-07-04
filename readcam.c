@@ -211,6 +211,7 @@ int main(int argc, char *argv[])
 	else
  	{
 	 	printf("This format is allowed!\n");
+		
  	}
 	// set up the numbers of driver buffer
    	reqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
@@ -227,6 +228,8 @@ int main(int argc, char *argv[])
 	if (!buffers) 
 	{
 		printf("Buffers out of memory\n");
+		return FALSE;
+		
 	}
 
 	//map the buffers between driver and approcation
@@ -256,6 +259,7 @@ r		buffers[i].length = buffer.length;     /* remember for munmap() */
 		if (MAP_FAILED == buffers[i].start)
 		{
 			printf("Mmap failde\n");
+			return FALSE;
 		}
 		else 
 		{
@@ -273,8 +277,8 @@ r		buffers[i].length = buffer.length;     /* remember for munmap() */
    
    		if (ioctl(fd, VIDIOC_QBUF, &buf) == -1)
    		{
-		   	 printf("Enqueue buffers error\n");
-			
+		   	printf("Enqueue buffers error\n");
+			return -1;
    		} 
   	}
 
@@ -282,7 +286,8 @@ r		buffers[i].length = buffer.length;     /* remember for munmap() */
    	type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
    	if (-1 == ioctl(fd, VIDIOC_STREAMON, &type))
    	{ 
-   		printf("Stream on error\n")
+   		printf("Stream on error\n");
+		return -1;
    	} 
   
 	//Read a frame to expose
@@ -293,11 +298,12 @@ r		buffers[i].length = buffer.length;     /* remember for munmap() */
 	if (ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
 	{
 		printf("Dqbuf failed\n");
-		
+		return -1;
 	} 
 	if (buf.index >= reqbuf.count)
   	{ 
 		printf("idex wrong\n");
+		return FALSE;
   	} 
 	// process image
 	YUY2_RGB4(buffers[buf.index].start, rgbbuf, COLS, ROWS);
@@ -305,7 +311,7 @@ r		buffers[i].length = buffer.length;     /* remember for munmap() */
 	if (ioctl(fd, VIDIOC_QBUF, &buf) == -1)
 	{
 		printf("Go to qbuf failed\n");
-		exit(-1);
+		return -1;
 	}
 	
 	printf("Init and read a frame!\n");
