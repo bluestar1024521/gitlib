@@ -258,9 +258,9 @@ int main(int argc, char *argv[])
 	for(a=0; a<reqbuf.count; a++)
   	{ 
 		struct v4l2_buffer buf;
-    		buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    		buf.memory = V4L2_MEMORY_MMAP;
-    		buf.index = a;
+    	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+    	buf.memory = V4L2_MEMORY_MMAP;
+    	buf.index = a;
    
    		if(ioctl(fd, VIDIOC_QBUF,&buf) == -1)
    		{
