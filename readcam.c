@@ -30,10 +30,10 @@ unsigned f = 0;
 int on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 { 
 	munmap(buffers[0].start, buffers[0].length);
- 	free(buffers);
-    close(fd); 
-    gtk_main_quit();
- 	return FALSE;
+	free(buffers);
+	close(fd); 
+	gtk_main_quit();
+	return FALSE;
 }
 
 int draw_image(GtkWidget *widget, GdkEvent *event, gpointer data)
