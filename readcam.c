@@ -173,7 +173,7 @@ int main(int argc, char *argv[])
 	else
 	{
     	printf("Successfull!\n");
-    } 
+	} 
 
 	// get the capability of the video
   	if(ioctl(fd, VIDIOC_QUERYCAP, &cap) == -1)  
@@ -233,20 +233,20 @@ int main(int argc, char *argv[])
 		{
 			printf("querybuf failed\n");
 		}
-       	else
+		else
 		{
 			printf("Querybuf successlly!\n");
 		} 
 		
-      	buffers[i].length = buffer.length;     /* remember for munmap() */
-       	buffers[i].start = mmap(NULL, buffer.length,
-                                PROT_READ | PROT_WRITE,   /* recommended */
-                                MAP_SHARED,                /* recommended */
-                                fd, buffer.m.offset);
-        if(MAP_FAILED == buffers[i].start)
-        {
-        	printf ("Mmap failde\n");
-        }
+		buffers[i].length = buffer.length;     /* remember for munmap() */
+		buffers[i].start = mmap(NULL, buffer.length,
+                                	PROT_READ | PROT_WRITE,   /* recommended */
+                                	MAP_SHARED,                /* recommended */
+                                	fd, buffer.m.offset);
+		if(MAP_FAILED == buffers[i].start)
+		{
+			printf ("Mmap failde\n");
+		}
 		else 
 		{
 			printf("Mmap it successlly!\n");
@@ -258,9 +258,9 @@ int main(int argc, char *argv[])
 	for(a=0; a<reqbuf.count; a++)
   	{ 
 		struct v4l2_buffer buf;
-    	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    	buf.memory = V4L2_MEMORY_MMAP;
-    	buf.index = a;
+		buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+		buf.memory = V4L2_MEMORY_MMAP;
+		buf.index = a;
    
    		if(ioctl(fd, VIDIOC_QBUF,&buf) == -1)
    		{
@@ -276,9 +276,9 @@ int main(int argc, char *argv[])
    	} 
   
 	//Read a frame to expose
-    struct v4l2_buffer buf;
-    buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    buf.memory = V4L2_MEMORY_MMAP;
+	struct v4l2_buffer buf;
+	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+	buf.memory = V4L2_MEMORY_MMAP;
 	
 	if(ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
 	{
@@ -306,7 +306,6 @@ int main(int argc, char *argv[])
 	gdk_threads_enter();
 	gtk_init(&argc, &argv);
 	gdk_init(&argc, &argv);
-
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "PIVOT");
