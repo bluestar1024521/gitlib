@@ -131,8 +131,7 @@ int read_data(GtkWidget *widget, GdkEvent *event, gpointer data)
 {    
 	struct v4l2_buffer buf;
    	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	buf.memory = V4L2_MEMORY_MMAP;
- 
+	buf.memory = V4L2_MEMORY_MMAP; 
 	if (ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
 	{
 		printf("Dqbuf failed\n");
@@ -174,6 +173,11 @@ int main(int argc, char *argv[])
 		{
 			printf("Open video1\n");
 		}
+		else
+		{
+			printf("Can`t open it\n");
+			exit(-1)
+		}
 	}
 	else
 	{
@@ -184,7 +188,7 @@ int main(int argc, char *argv[])
   	if (ioctl(fd, VIDIOC_QUERYCAP, &cap) == -1)  
  	{
 	 	printf("Can't get cap!\n");
-		return -1;
+		exit(-1);
  	}
   	if (cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) 
  	{
@@ -206,7 +210,7 @@ int main(int argc, char *argv[])
 	if (ioctl(fd, VIDIOC_S_FMT, &fmt) == -1) 
 	{
 		printf("format failed\n");
-		return -1;
+		exit(-1);
 	}
 	else
  	{
@@ -220,7 +224,7 @@ int main(int argc, char *argv[])
 	if (ioctl(fd, VIDIOC_REQBUFS, &reqbuf) == -1) 
 	{
 		printf("Buffer request error\n");
-		return -1;
+		exit(-1);
 		
 	}
 	//allocate the approcation buffers 
@@ -228,7 +232,7 @@ int main(int argc, char *argv[])
 	if (!buffers) 
 	{
 		printf("Buffers out of memory\n");
-		return FALSE;
+		exit(-1);
 		
 	}
 
@@ -244,7 +248,7 @@ e
 		if (ioctl(fd, VIDIOC_QUERYBUF, &buffer) == -1)
 		{
 			printf("querybuf failed\n");
-			return -1;
+			exit(-1);
 		}
 		else
 		{
@@ -278,7 +282,7 @@ r		buffers[i].length = buffer.length;     /* remember for munmap() */
    		if (ioctl(fd, VIDIOC_QBUF, &buf) == -1)
    		{
 		   	printf("Enqueue buffers error\n");
-			return -1;
+			exit(-1);
    		} 
   	}
 
@@ -287,7 +291,7 @@ r		buffers[i].length = buffer.length;     /* remember for munmap() */
    	if (-1 == ioctl(fd, VIDIOC_STREAMON, &type))
    	{ 
    		printf("Stream on error\n");
-		return -1;
+		exit(-1);
    	} 
   
 	//Read a frame to expose
@@ -298,12 +302,12 @@ r		buffers[i].length = buffer.length;     /* remember for munmap() */
 	if (ioctl(fd, VIDIOC_DQBUF, &buf) == -1)
 	{
 		printf("Dqbuf failed\n");
-		return -1;
+		exit(-1);
 	} 
 	if (buf.index >= reqbuf.count)
   	{ 
 		printf("idex wrong\n");
-		return FALSE;
+		exit(-1);
   	} 
 	// process image
 	YUY2_RGB4(buffers[buf.index].start, rgbbuf, COLS, ROWS);
@@ -311,7 +315,7 @@ r		buffers[i].length = buffer.length;     /* remember for munmap() */
 	if (ioctl(fd, VIDIOC_QBUF, &buf) == -1)
 	{
 		printf("Go to qbuf failed\n");
-		return -1;
+		exit(-1);
 	}
 	
 	printf("Init and read a frame!\n");
